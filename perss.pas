@@ -80,7 +80,7 @@ end;
 type Block = class
   sym:char;
   def_tcolor:integer;
-  def_bgcolor:integer; //adaptive(not have static)
+  def_bgcolor:integer;
   max_hp:integer; hp:integer;
   constructor (symb:char; tc:integer:=15; bg:integer:=0; max_hp:integer:=30);
   begin

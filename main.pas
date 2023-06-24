@@ -34,29 +34,28 @@ begin
   //ch2 mooving and doing something
   var input_key:=readkey; var old_x:=posx; var old_y:=posy;
   hero.input(input_key);
-  //input_key:=' ';
+
   posx+=hero.vecx; posy+=hero.vecy;
   if posx>w-1 then begin posx:=2; end;
   if posy>h-1 then begin posy:=2; end;
   if posx<=1 then begin posx:=w-1; end;
   if posy<=1 then begin posy:=h-1; end;
   
-  crt.TextBackground(now_color);//global_map[posy][posx][1][1] mod 15);
+  crt.TextBackground(now_color);
   gotoxy(1, window_h-1); clearline(); tech_info(posx, posy, input_key); 
   
-  //now_color:=noiser(1, 14);
-  crt.TextBackground(now_color); //global_map[posy][posx][1][1] mod 15);
+
+  crt.TextBackground(now_color);
   
   if (posx<>old_x) or (posy<>old_y) then
   begin
-    //now_color:=noiser(1, 14);
     crt.TextBackground(now_color);
     set_on_map(2, -1, posx, posy);
     set_on_map(old_obj_type, old_obj_id, old_x, old_y);
     old_obj_type:=global_map[posy][posx][2][1];
     old_obj_id:=global_map[posy][posx][2][2];
   end;
-  //delay(5000);
+
   
   gotoxy(1, window_h-1);
   
