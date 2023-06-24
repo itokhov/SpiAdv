@@ -65,4 +65,15 @@ begin
   end;
   
 end;
+function get_obj_sym(k:tile_m): char;
+begin
+  if k[1]=0 then begin result:=aobjects.not_destroy[k[2]].sym; end; //dot forget about "now_color"
+  if k[1]=1 then begin result:=aobjects.live_objs[k[2]].sym; end;
+  if k[1]=2 then 
+  begin
+    if k[2]=-1 then result:=aobjects.hero.sym
+    else result:=aobjects.other_objs[k[2]].sym;
+  end;
+end;
+
 end.
