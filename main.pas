@@ -2,7 +2,7 @@
 uses aobjects;
 //uses simple_map;
 uses map_tools_v2;
-
+uses game_consts;
 uses crt;
 
 var posx:=35; var posy:=5;
@@ -15,50 +15,54 @@ begin
 
 end;
 begin
-  global_map:=map_tools_v2.map_gen();
-  global_map[posy][posx][1][1]:=2; global_map[posy][posx][1][2]:=aobjects.new_object(2, 0);
-  var old_obj_type:=0; var old_obj_id:=w-1;
-  var hero:=aobjects.hero;
-  var now_color:=0;
-  
+  global_map:=map_tools_v2.map_gen(); //map generation
+  global_map[posy][posx][1][1]:=2; global_map[posy][posx][1][2]:=aobjects.new_object(2, 0); //create and set player on map
+  var old_obj_type:=0; var old_obj_id:=w-1-tile_len; //im forget why i maked this vars
+  var hero:=aobjects.hero; //for fast dostup to hero
+  var input_key:char; //very poleznaya var
+    
   SetWindowSize(window_w, window_h);
   crt.HideCursor();
 
 
-while true do
-begin
-  map_printer(global_map);
-  tile_printer(posx, posy);
-
-
-  //ch2 mooving and doing something
-  var input_key:=readkey; var old_x:=posx; var old_y:=posy;
-  hero.input(input_key);
-
-  posx+=hero.vecx; posy+=hero.vecy;
-  if posx>w-1 then begin posx:=2; end;
-  if posy>h-1 then begin posy:=2; end;
-  if posx<=1 then begin posx:=w-1; end;
-  if posy<=1 then begin posy:=h-1; end;
-  
-  crt.TextBackground(now_color);
-  gotoxy(1, window_h-1); clearline(); tech_info(posx, posy, input_key); 
-  
-
-  crt.TextBackground(now_color);
-  
-  if (posx<>old_x) or (posy<>old_y) then
+  while input_key<>'Q' do
   begin
-    crt.TextBackground(now_color);
-    set_on_map(2, -1, posx, posy);
-    set_on_map(old_obj_type, old_obj_id, old_x, old_y);
-    old_obj_type:=global_map[posy][posx][2][1];
-    old_obj_id:=global_map[posy][posx][2][2];
-  end;
+    
+    //drawing
+    map_printer(global_map);
+    tile_printer(posx, posy);
+    //hero_stats_printer();
+    //hero_backpack_printer();
+    gotoxy(1, window_h-1); clearline(); tech_info(posx, posy, input_key, hero.hp);
 
+    //player thinking
+    input_key:=readkey; var old_x:=posx; var old_y:=posy;
+    hero.input(input_key);
+    var now_tile:=global_map[posy][posx][1];
+    var will_tile:=global_map[posy+hero.vecy][posx+hero.vecx];
+    
+    var l:=1; 
+    var mooving:=false; //dont forget to rechange!
+    if get_obj_touchable(will_tile[l]) and (now_tile<>will_tile[l])then 
+      begin posx+=hero.vecx; posy+=hero.vecy; mooving:=true; end
+    else
+    begin
+      if will_tile[1][1]=1 then aobjects.attack_on(now_tile, will_tile[1])
+    end;
+
+    if mooving=true then
+    begin
+      set_on_map(2, -1, posx, posy);
+      set_on_map(old_obj_type, old_obj_id, old_x, old_y);
+      old_obj_type:=will_tile[tile_len][1];
+      old_obj_id:=will_tile[tile_len][2];
+    end;
+    map_analyzer(global_map, posx, posy);
+    
+    if hero.hp<=0 then input_key:='Q';
+  end;
   
-  gotoxy(1, window_h-1);
-  
-end;
+  clrscr();
   gotoxy(1, window_h-2);
+
 end.
