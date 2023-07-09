@@ -26,8 +26,11 @@ begin
         global_map[i][j][1][1]:= 0; //bedrock
         global_map[i][j][1][2]:= aobjects.new_object(0, 0); //second zero - type_id of bedrock "#"
       end
-    
       else 
+        //room
+        if ((i=10) or (j=10)) and (i<>5) and (i<11) and (j<11) then begin global_map[i][j][1][1]:= 0; global_map[i][j][1][2]:= aobjects.new_object(0, 0); end
+        else if (j=10) and (i=5) then begin global_map[i][j][1][1]:= 2; global_map[i][j][1][2]:= aobjects.new_object(2, 3); end
+      else
       begin
         k:=random(100);
 {        if k=15 then 
@@ -131,8 +134,10 @@ begin
           if aobjects.live_objs[k[2]].hp<=0 then
           begin
             //rechange it! -- add id's gravitation
-            aobjects.live_objs[k[2]].sym:='%';
-            aobjects.live_objs[k[2]].touchable:=true;
+            {aobjects.live_objs[k[2]].sym:='%';
+            aobjects.live_objs[k[2]].touchable:=true;}
+            gmap[i][j][n][1]:=aobjects.live_objs[k[2]].next_station[1];
+            gmap[i][j][n][2]:=aobjects.live_objs[k[2]].next_station[2];
           end
           else 
           begin
@@ -160,6 +165,25 @@ begin
             else if aobjects.live_objs[k[2]].step=true then aobjects.live_objs[k[2]].step:=false;
           end;
           
+        end;
+        if (k[1]=2) and (k[2]<>-1) then 
+        begin
+          if aobjects.other_objs[k[2]].hp<=0 then
+          begin
+            aobjects.other_objs[k[2]].hp:=aobjects.other_objs[k[2]].max_hp;
+            gmap[i][j][n][1]:=aobjects.other_objs[k[2]].next_station[1];
+            gmap[i][j][n][2]:=aobjects.other_objs[k[2]].next_station[2];
+          end
+        end
+        else if (k[1]=3) then 
+        begin
+          if aobjects.next_oobjs[k[2]].hp<=0 then
+          begin
+            //delay(5000);
+            aobjects.next_oobjs[k[2]].hp:=aobjects.next_oobjs[k[2]].max_hp;
+            gmap[i][j][n][1]:=aobjects.next_oobjs[k[2]].next_station[1];
+            gmap[i][j][n][2]:=aobjects.next_oobjs[k[2]].next_station[2];
+          end
         end;
       end;
     end;

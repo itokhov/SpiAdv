@@ -51,13 +51,16 @@ type Anger = class(Person)
   touchable:boolean:=false;//if false, then you cant mooving on it
   visible:=true;
   step:=false;
-  constructor (symb:char; tc:integer; bg:integer; max_hp:integer; atk:integer);
+  
+  next_station:game_consts.tile_m;
+  constructor (symb:char; tc:integer; bg:integer; max_hp:integer; atk:integer; ns:tile_m);
   begin
     sym:=symb;
     def_tcolor:=tc;
     def_bgcolor:=bg;
     self.max_hp:=max_hp; hp:=max_hp;
     self.atk:=atk;
+    next_station:=ns;
   end;
   procedure Print;
   begin
@@ -72,7 +75,6 @@ type Anger = class(Person)
     if input_key='4' then begin vecx:=-step_size; vecy:=0; end;
   end;
 end;
-
 
 type Not_destroyble = class
   sym:char;
@@ -95,15 +97,20 @@ type Block = class
   def_tcolor:integer;
   def_bgcolor:integer;
   max_hp:integer; hp:integer;
-  touchable:boolean:=false;
-  visible:=true;
-  constructor (symb:char;  t:boolean:=false; tc:integer:=15; bg:integer:=0; max_hp:integer:=30);
+  touchable:boolean:=false; //можно ли встать на
+  visible:=true; //видно ли его
+  
+  lifted:boolean:=false; //можно ди поднять
+  
+  next_station:tile_m;
+  constructor (symb:char; t:boolean:=false; tc:integer:=15; bg:integer:=0; max_hp:integer:=30; ld:boolean:=false);
   begin
     sym:=symb;
     def_tcolor:=tc;
     def_bgcolor:=bg; 
     self.max_hp:=max_hp; hp:=max_hp;
     touchable:=t;
+    lifted:=ld;
   end;
 end;
 

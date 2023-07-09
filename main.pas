@@ -1,11 +1,11 @@
-﻿uses perss;
+﻿unit main;
+uses perss;
 uses aobjects;
 //uses simple_map;
 uses map_tools_v2;
 uses game_consts;
 uses crt;
 
-var posx:=35; var posy:=5;
 
 procedure set_on_map(obj_type:integer; obj_id:integer; posx:integer; posy:integer; posz:integer:=1);
 begin
@@ -14,7 +14,10 @@ begin
       global_map[posy][posx][posz][2]:=obj_id;
 
 end;
+procedure new_game();
 begin
+  var posx:=7; var posy:=7;
+  
   global_map:=map_tools_v2.map_gen(); //map generation
   global_map[posy][posx][1][1]:=2; global_map[posy][posx][1][2]:=aobjects.new_object(2, 0); //create and set player on map
   var old_obj_type:=0; var old_obj_id:=w-1-tile_len; //im forget why i maked this vars
@@ -44,25 +47,31 @@ begin
     var l:=1; 
     var mooving:=false; //dont forget to rechange!
     if get_obj_touchable(will_tile[l]) and (now_tile<>will_tile[l])then 
-      begin posx+=hero.vecx; posy+=hero.vecy; mooving:=true; end
+    begin 
+      posx+=hero.vecx; posy+=hero.vecy; mooving:=true; 
+    end
     else
     begin
-      if will_tile[1][1]=1 then aobjects.attack_on(now_tile, will_tile[1])
+      if will_tile[1][1]=1 then aobjects.attack_on(now_tile, will_tile[1]);
+      if will_tile[1][1]=2 then aobjects.attack_on(now_tile, will_tile[1]);
     end;
+    if will_tile[1][1]=3 then aobjects.attack_on(now_tile, will_tile[1]);
 
     if mooving=true then
     begin
       set_on_map(2, -1, posx, posy);
       set_on_map(old_obj_type, old_obj_id, old_x, old_y);
-      old_obj_type:=will_tile[tile_len][1];
-      old_obj_id:=will_tile[tile_len][2];
+      old_obj_type:=will_tile[1][1];
+      old_obj_id:=will_tile[1][2];
     end;
     map_analyzer(global_map, posx, posy);
     
     if hero.hp<=0 then input_key:='Q';
   end;
   
-  clrscr();
+  clrscr(); delay(3000); 
   gotoxy(1, window_h-2);
 
+end;
+  
 end.
