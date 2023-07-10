@@ -8,6 +8,11 @@ const
   tile_posx = w+3;
   tile_posy = 2;
   tile_len = 3;
+  
+  stats_posx = tile_posx;
+  stats_posy = tile_posy+tile_len+2;
+  stats_min_len = 3;
+  
 type 
   tile_m=array [1..2] of integer;
 type 

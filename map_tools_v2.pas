@@ -120,6 +120,14 @@ begin
   end;
 end;
 
+procedure hero_stats_printer();
+begin
+  gotoxy(stats_posx, stats_posy); write('name:', '.'*(stats_min_len+1), hero.name);
+  gotoxy(stats_posx, stats_posy+1); write('level:', '.'*stats_min_len, hero.level);
+  gotoxy(stats_posx, stats_posy+2); write('hp:', '.'*(stats_min_len+3), hero.hp);
+  gotoxy(stats_posx, stats_posy+3); write('atk:', '.'*(stats_min_len+2), hero.atk);
+end;
+
 procedure map_analyzer(var gmap:mapi; p_posx, p_posy:integer);
 begin
   for var i:=1 to h do

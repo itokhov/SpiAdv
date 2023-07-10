@@ -22,6 +22,7 @@ begin
   global_map[posy][posx][1][1]:=2; global_map[posy][posx][1][2]:=aobjects.new_object(2, 0); //create and set player on map
   var old_obj_type:=0; var old_obj_id:=w-1-tile_len; //im forget why i maked this vars
   var hero:=aobjects.hero; //for fast dostup to hero
+  hero.name:='Spidy';
   var input_key:char; //very poleznaya var
     
   SetWindowSize(window_w, window_h);
@@ -34,7 +35,7 @@ begin
     //drawing
     map_printer(global_map);
     tile_printer(posx, posy);
-    //hero_stats_printer();
+    hero_stats_printer();
     //hero_backpack_printer();
     gotoxy(1, window_h-1); clearline(); tech_info(posx, posy, input_key, hero.hp);
 

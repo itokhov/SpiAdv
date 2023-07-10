@@ -7,7 +7,7 @@ var live_objs: array of Anger; var lo_len:=0; //type 1
 var other_objs: array of Block; var oo_len:=0; //type 2
 var next_oobjs: array of Block; var noo_len:=0; //type 3
 
-var hero: Person:=new Person;
+var hero: Person:=new Person; 
   
 var o_id:integer;
 var o_type:integer;
